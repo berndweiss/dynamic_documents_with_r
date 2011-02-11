@@ -1,0 +1,51 @@
+
+% [[file:e:/projects/software/reproducible_research/slides/p_repro_research.org::*A%20second%20Sweave%20example][A-second-Sweave-example:1]]
+
+%% filename: src/tex/examp_sweave-02.Rnw
+\documentclass[noae]{article}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+\title{This is a tiny Sweave example}
+\author{Bernd Weiss}
+
+\usepackage{Sweave}
+\begin{document}
+\maketitle
+
+How to create publication-ready table:
+
+% latex table generated in R 2.12.1 by xtable 1.5-6 package
+% Fri Feb 11 07:38:40 2011
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rrr}
+  \hline
+ & (32,66] & (66,91] \\ 
+  \hline
+(0.8,7.25] &  13 &  10 \\ 
+  (7.25,17.4] &  11 &  14 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+% latex table generated in R 2.12.1 by xtable 1.5-6 package
+% Fri Feb 11 07:38:40 2011
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & 6.4159 & 2.9067 & 2.21 & 0.0321 \\ 
+  UrbanPop & 0.0209 & 0.0433 & 0.48 & 0.6312 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
+\end{document}
+
+% A-second-Sweave-example:1 ends here

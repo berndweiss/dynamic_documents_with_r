@@ -1,0 +1,25 @@
+* Dynamic documents with R and LaTeX as an important part of reproducible research
+
+** Contents
+- /docs :: Documents that are related to reproducible research and R/Sweave. These documents cannot be found on my github
+          repo but the corresponding links can be found in my slides.
+- /graphs :: Guess what...
+- /slides :: Slides (PDF-, Org- and TeX-files)
+- /src :: R and LaTeX code
+
+** Download all materials
+You can download this repository with git (see "Git Read-only" link above). If you have no idea
+about git, then you might better use the "Downloads" button on the right-hand side).
+
+** Understanding and running R code
+The R source code can be found in =/src=. For each slide, R code is separated by a marker which
+starts with "## [[file:e:" and can help you to find the corresponding slide. This may look ugly to
+you but (a) the symbols indicate that these lines are commented out and harmless and (even more
+important) (b) are an essential part of my work flow and cannot be removed.  
+
+** License
+These materials are licensed under a [[http://creativecommons.org/licenses/by-nc-sa/3.0/de/deed.en][CC Attribution-NonCommercial-ShareAlike 3.0 Germany (CC
+BY-NC-SA 3.0)]].  
+
+** Contact
+If you have any question or comments, feel free to contact me via [[http://berndweiss.net]].

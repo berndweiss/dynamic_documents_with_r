@@ -1,0 +1,488 @@
+#+TITLE:     Dynamic documents with R and \LaTeX{} as an important part of reproducible research
+#+AUTHOR:    Bernd Weiss\\Research Institute for Sociology\\University of Cologne\\Germany\\
+#+EMAIL:     bernd.weiss@uni-koeln.de
+#+DATE:      02/11/2011 \vfill \byncsa
+
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+BEAMER_FRAME_LEVEL: 2
+#+BABEL: :results output :exports both :comments yes :session
+
+
+#+startup: beamer
+#+LaTeX_CLASS: beamer
+#+LaTeX_CLASS_OPTIONS: [bigger]
+#+latex_header: %%\mode<beamer>{\usetheme{Madrid}}
+#+latex_header: \usepackage{lucidabr}
+#+latex_header: \usepackage{marvosym}
+#+latex_header: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Topic}\tableofcontents[currentsection]\end{frame}}
+#+latex_header: \usepackage{cclicenses}
+#+latex_header: \hypersetup{colorlinks=true, urlcolor=cyan, linkcolor=black}
+#+begin_LaTeX
+
+\newcommand{\infobox}[1]{
+  \vfill\vfill\hrule
+  \begin{columns}[t]
+    \begin{column}{0.02\textwidth}
+      \Info
+    \end{column}
+    \begin{column}[T]{0.97\textwidth}
+      \tiny{#1}
+    \end{column}
+\end{columns}}
+
+\definecolor{dkgreen}{rgb}{0,0.5,0}
+\definecolor{dkred}{rgb}{0.5,0,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\lstset{basicstyle=\ttfamily\bfseries\footnotesize,
+morekeywords={virtualinvoke},
+%%keywordstyle=\color{blue},
+%%ndkeywordstyle=\color{red},
+commentstyle=\color{dkred},
+%%stringstyle=\color{dkgreen},
+numbers=left,
+numberstyle=\ttfamily\tiny\color{gray},
+stepnumber=1,
+numbersep=10pt,
+backgroundcolor=\color{white},
+tabsize=4,
+showspaces=false,
+showstringspaces=false,
+xleftmargin=.23in
+}
+#+end_LaTeX
+
+
+#+begin_latex
+\begin{frame}\frametitle{Acknowledgment, license and downloads}
+\begin{itemize}
+\item This work was supported by a fellowship within the Postdoc-Programme of the German Academic
+  Exchange Service (DAAD)(Grant D/10/43517).
+\item My presentation was created using Emacs' \href{http://orgmode.org/}{\emph{org-mode}} and
+\href{http://orgmode.org/worg/org-contrib/babel/}{\emph{Babel: active code in
+Org-mode}}. 
+\item Licensed under a Creative Commons
+\href{http://creativecommons.org/licenses/by-nc-sa/3.0/de/deed.en}{Attribution-NonCommercial-ShareAlike
+3.0 Germany} license.
+\item Slides, dataset and R code can be downloaded from my github page:
+\href{https://github.com/berndweiss/dynamic_documents_with_r}{https://github.com/berndweiss/dynamic_documents_with_r} (see
+"Downloads" button on the right-hand side).
+\end{itemize}
+\end{frame}
+#+end_latex
+
+#+lattice and ggplot2 in babel
+#+http://www.mail-archive.com/emacs-orgmode@gnu.org/msg25944.html
+#+http://www.mail-archive.com/emacs-orgmode@gnu.org/msg35559.html
+
+
+
+
+* Preliminary remarks
+
+** Outline
+*** Present some ideas about reproducible research
+*** My data analysis workflow
+*** \LaTeX in 5 minutes
+*** Sweave: Dynamic documents with R and \LaTeX
+
+
+
+* Reproducible research
+
+** What is reproducible research?
+
+"By reproducible research, we mean research papers with accompanying software tools that allow the
+reader to directly reproduce the results and employ the methods that are presented in the research
+paper" (Gentleman/Lang 2004: 1). 
+
+
+** Requirements for the workflow: TREMMP
+\small
+*** Transparency (e.g., by using dynamic documents, "The source code is real")
+*** Reproducibility (e.g., by using dynamic documents, "The source code is real")
+*** Efficiency (a good workflow saves you time, by automating as much of the process as possible)
+*** Maintainability (standardized script names, good commenting practices, README files)
+*** Modularity (discrete tasks into separate components (e.g. scripts))
+*** Portability (e.g., by using relative (not absolute) pathnames)
+\vfill
+\tiny
+(Source: David Smith on "A workflow for R": http://blog.revolutionanalytics.com/2010/10/a-workflow-for-r.html)
+
+
+
+
+** The source code is real
+
+"The source code is real. The objects are realizations of the source code. Source for EVERY user
+modified object is placed in a particular directory or directories, for later editing and retrieval"
+(Rossini et al. 2011:[[http://ess.r-project.org/Manual/ess.html][ ESS - Emacs Speaks Statistics - Manual]])
+
+
+** How my project(s) are organized
+
+#+BEGIN_SRC sh :exports results
+ls -g -G -F E:/projects/ipd-ma-separation
+#+END_SRC
+
+#+results:
+#+begin_example
+total 16
+-rw-r--r-- 1 1073 Nov  5 08:33 README
+drwxr-xr-x 1 4096 Jan 30 10:14 data/
+drwxr-xr-x 1    0 Jan 26 12:13 docs/
+drwxr-xr-x 1    0 Feb  4 08:11 graphs/
+drwxr-xr-x 1    0 Jan 29 16:39 libs/
+drwxr-xr-x 1    0 Dec 23 09:34 org/
+drwxr-xr-x 1 4096 Feb  4 08:11 reports/
+drwxr-xr-x 1 4096 Jan 30 08:03 src/
+drwxr-xr-x 1    0 Jan 29 11:44 tests/
+#+end_example
+
+
+
+** Sweave as a tool for creating dynamic documents
+
+"Sweave is a tool that allows the R code used for a complete data analysis to be embedded into
+LaTeX, HTML or OpenOffice documents. The purpose is to create dynamic reports, which can be updated
+automatically if the data or analysis change. Instead of inserting a prefabricated graph or table
+into the report, the master document contains the R code necessary to obtain it. When run through R,
+all data analysis output (tables, graphs, etc.) is created on the fly and inserted into a final
+document. Data, code and documentation are tightly linked together, which allows for truly
+reproducible research" (Leisch 2010, http://user2010.org/tutorials/Leisch.html). 
+
+  
+** Some Sweave examples
+*** Dissertation thesis
+*** Medical report with tables and figures
+
+
+
+* \LaTeX in 5 minutes
+
+** What is \LaTeX
+*** \LaTeX{} is a markup language. Another markup language you might know is HTML.
+*** \LaTeX{} provides high-quality typesetting features. 
+*** The typical workflow is as follows: 
+    1. Create \LaTeX{} source code file (=.tex=)
+    2. Compile it via \LaTeX{} or pdf\LaTeX
+    3. Use a viewer (PDF, DVI or via dvips PS) to view the compiled file
+*** In order to run \LaTeX{} on your computer, you will need to install a 
+    \LaTeX-distribution (e.g., Mik\TeX{} for MS-Windows).  
+
+ 
+
+** 
+
+#+attr_latex: width=\textwidth
+#+results:
+[[file:../graphs/tex-workflow.pdf]]
+
+Source: http://media.texample.net/tikz/examples/PDF/tex-workflow.pdf
+
+
+
+
+
+** What a \LaTeX{} file looks like				    :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :BEAMER_envargs: [shrink = 5]
+   :END:
+
+#+BEGIN_SRC latex :results none :exports code :tangle ../src/tex/hello_world.tex
+%% Part 1: Preamble
+\documentclass{article} 
+
+\usepackage[utf8]{inputenc}  
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+%% Part 2: Body 
+\begin{document}
+
+\section{Heading} 
+
+Hello world!
+
+\begin{equation}
+\overline{T} = \frac{\sum\limits^{k}_{i = 1} %
+  T_{i}\cdot w_{i}}{\sum\limits^{k}_{i = 1}w_{i}}
+\end{equation}
+
+\end{document}
+#+END_SRC 
+
+#+results:
+#+BEGIN_LaTeX
+%% Part 1: Preamble
+\documentclass{article} 
+
+\usepackage[utf8]{inputenc}  
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+%% Part 2: Body 
+\begin{document}
+
+\section{Heading} 
+
+Hello world!
+
+\begin{equation}
+\overline{T} = \frac{\sum\limits^{k}_{i = 1} %
+  T_{i}\cdot w_{i}}{\sum\limits^{k}_{i = 1}w_{i}}
+\end{equation}
+
+\end{document}
+#+END_LaTeX
+
+
+#+BEGIN_SRC sh :results none :exports none
+pdflatex ../src/tex/hello_world.tex
+#+END_SRC
+
+#+results:
+#+begin_example
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9)
+entering extended mode
+(e:\projects\software\dynamic_documents_with_r\src\tex\hello_world.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, afrikaans, ancientgreek, ar
+abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
+croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
+lician, german, german-x-2009-06-19, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, lao, latin, lat
+vian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerm
+an, ngerman-x-2009-06-19, nynorsk, oriya, panjabi, pinyin, polish, portuguese, 
+romanian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swis
+sgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, u
+senglishmax, welsh, loaded.
+(C:\Programme\texmf\tex\latex\base\article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(C:\Programme\texmf\tex\latex\base\size10.clo))
+(C:\Programme\texmf\tex\latex\base\inputenc.sty
+(C:\Programme\texmf\tex\latex\base\utf8.def
+(C:\Programme\texmf\tex\latex\base\t1enc.dfu)
+(C:\Programme\texmf\tex\latex\base\ot1enc.dfu)
+(C:\Programme\texmf\tex\latex\base\omsenc.dfu)))
+(C:\Programme\texmf\tex\latex\base\fontenc.sty
+(C:\Programme\texmf\tex\latex\base\t1enc.def))
+(C:\Programme\texmf\tex\generic\babel\babel.sty
+*************************************
+* Local config file bblopts.cfg used
+*
+(C:\Programme\texmf\tex\latex\00miktex\bblopts.cfg)
+(C:\Programme\texmf\tex\generic\babel\english.ldf
+(C:\Programme\texmf\tex\generic\babel\babel.def)))
+(e:\projects\software\dynamic_documents_with_r\slides\hello_world.aux) [1{C:/Us
+ers/weiss/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+(e:\projects\software\dynamic_documents_with_r\slides\hello_world.aux) ){C:/Pro
+gramme/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}<C:/Users/weiss/AppData/R
+oaming/MiKTeX/2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/weiss/App
+Data/Roaming/MiKTeX/2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/wei
+ss/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/User
+s/weiss/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:
+/Users/weiss/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb
+><C:/Users/weiss/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/amsfonts/cm/cmsy
+10.pfb><C:/Programme/texmf/fonts/type1/public/cm-super/sfbx1440.pfb><C:/Program
+me/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on hello_world.pdf (1 page, 68424 bytes).
+Transcript written on hello_world.log.
+#+end_example
+
+
+
+
+** The compiled 'Hello world'-example
+
+#+BEGIN_LaTeX 
+\frame{\includegraphics[clip, scale = 0.25]{hello_world.pdf}}
+#+END_LaTeX
+
+
+
+
+* Sweave
+
+
+** What a Sweave file looks like 				    :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :BEAMER_envargs: [shrink=10]
+   :END:
+#+BEGIN_SRC latex :exports code :results silent :tangle ../src/tex/examp_sweave-01.Rnw
+%% filename: src/tex/examp_sweave-01.Rnw
+\documentclass[noae]{article}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[margin = 1in]{geometry}
+
+\title{This is a tiny Sweave example}
+\author{Bernd Weiss}
+
+\begin{document}
+\maketitle
+
+I am using a built-in dataset which is called \texttt{USArrests} 
+(Violent Crime Rates by US State).
+
+<<echo = TRUE>>=
+summary(USArrests)
+@
+
+The mean for "Murder arrests (per 100,000)" is \Sexpr{mean(USArrests$Murder)}.
+
+\setkeys{Gin}{width=0.4\textwidth}
+
+\begin{figure}[h!]
+\begin{center}
+<<echo = FALSE, fig = TRUE>>=
+hist(USArrests$Murder)
+@
+\end{center}
+\caption{Murder arrests (per 100,000)}
+\end{figure}
+
+\end{document}
+#+END_SRC
+
+
+
+** Running Sweave
+
+#+BEGIN_SRC R :results output silent
+setwd("E:/projects/software/reproducible_research/src/tex")
+Sweave("examp_sweave-01.Rnw")
+system("pdflatex -output-directory ../../slides examp_sweave-01.tex", 
+       show.output.on.console = TRUE,
+       minimized = FALSE)
+#+END_SRC
+
+
+
+** The compiled Sweave-example
+
+#+BEGIN_LaTeX 
+\frame{\includegraphics[clip, scale = 0.28]{examp_sweave-01.pdf}}
+#+END_LaTeX
+
+
+
+** A second Sweave example 					    :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :BEAMER_envargs: [shrink=10]
+   :END:
+#+BEGIN_SRC latex :exports code :results silent :tangle ../src/tex/examp_sweave-02.Rnw
+%% filename: src/tex/examp_sweave-02.Rnw
+\documentclass[noae]{article}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+\title{This is a tiny Sweave example}
+\author{Bernd Weiss}
+
+\begin{document}
+\maketitle
+
+How to create publication-ready table:
+
+<<echo = FALSE, results = tex>>=
+library(xtable)
+USArrests$Murder_d <- cut(USArrests$Murder, 
+                          quantile(USArrests$Murder, 
+                          probs = seq(0, 1, 0.5)))
+USArrests$UrbanPop_d <- cut(USArrests$UrbanPop, 
+                            quantile(USArrests$UrbanPop, 
+                            probs = seq(0, 1, 0.5)))
+xtable(table(USArrests$Murder_d, USArrests$UrbanPop_d))
+@
+
+
+<<echo = FALSE, results = tex>>=
+
+xtable(lm(Murder ~ UrbanPop, data = USArrests))
+@
+
+\end{document}
+#+END_SRC
+
+
+
+#+BEGIN_SRC R :results silent :exports none
+setwd("E:/projects/software/reproducible_research/src/tex")
+Sweave("examp_sweave-02.Rnw")
+system("pdflatex -output-directory ../../slides examp_sweave-02.tex", 
+       show.output.on.console = TRUE,
+       minimized = FALSE)
+#+END_SRC
+
+
+** The second compiled Sweave-example
+
+#+BEGIN_LaTeX 
+\frame{\includegraphics[clip, scale = 0.28]{examp_sweave-02.pdf}}
+#+END_LaTeX
+
+
+
+* References and additional materials
+
+** (Some) R packages that generate \LaTeX{} code
+
+*** [[http://cran.r-project.org/web/packages/Hmisc/index.html][Hmisc: Harrell Miscellaneous]]
+*** [[http://cran.r-project.org/web/packages/memisc/index.html][memisc: Tools for Management of Survey Data, Graphics, Programming, Statistics, and Simulation]]
+*** [[http://cran.r-project.org/web/packages/reporttools/][reporttools: Generate LaTeX tables of descriptive statistics]]
+*** [[http://cran.r-project.org/web/packages/xtable/index.html][xtable: Export tables to LaTeX or HTML]]
+*** \ldots
+*** For a general overview see [[http://cran.r-project.org/web/views/ReproducibleResearch.html][CRAN Task View: Reproducible Research]]
+
+
+** R related materials 						    :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+*** [[http://www.stat.uni-muenchen.de/~leisch/Sweave/][Friedrich Leisch's The Sweave Homepage]]
+*** [[http://www.stat.umn.edu/~charlie/Sweave/][An Sweave Demo, Literate Programming in R, Reproducible Research ]]
+*** Jeromy Anglim's talk about "[[http://jeromyanglim.blogspot.com/2010/12/r-workflow-slides-from-talk-at.html][R Workflow: Slides from a Talk at Melbourne R Users (1st Dec 2010)]]" (Slides + Video)
+*** Tal Galili: [[http://www.r-statistics.com/2010/05/exporting-r-output-to-ms-word-with-r2wd-an-example-session/][Exporting R output to MS-Word with R2wd (an example session)]]
+*** [[http://cran.r-project.org/web/views/ReproducibleResearch.html][CRAN Task View: Reproducible Research]]
+
+*** [[http://book-by-sweave.wikidot.com/][A Sweave Wiki]]
+*** [[http://www.stat.auckland.ac.nz/~stat782/downloads/Sweave-customisation.pdf][Customizing Sweave to Produce Better Looking LaTeX Output]]
+
+** Reproducible research related materials 			    :B_frame:
+   :PROPERTIES:
+   :BEAMER_env: frame
+   :END:
+*** [[http://bib.oxfordjournals.org/content/early/2011/01/28/bib.bbq084.abstract][Hothorn/Leisch (2011): Case studies in reproducibility ]]
+*** [[http://reproducibleresearch.net/index.php/Main_Page][ReproducibleResearch.net]]
+*** stackoverflow: [[http://stackoverflow.com/questions/1429907/workflow-for-statistical-analysis-and-report-writing/][Workflow for statistical analysis and report writing]]
+*** [[http://www.bepress.com/bioconductor/paper2/][Gentleman/Lang (2004): Statistical Analyses and Reproducible Research]]
+
+
+
+#+BEGIN_SRC sh :exports none
+rm *.tex
+rm *.aux
+rm *.log
+rm *~ 
+#+END_SRC
+
+#+results:
+

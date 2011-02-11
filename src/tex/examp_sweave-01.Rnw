@@ -1,0 +1,40 @@
+
+% [[file:e:/projects/software/dynamic_documents_with_r/slides/p_repro_research.org::*What%20a%20Sweave%20file%20looks%20like][What-a-Sweave-file-looks-like:1]]
+
+%% filename: src/tex/examp_sweave-01.Rnw
+\documentclass[noae]{article}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[margin = 1in]{geometry}
+
+\title{This is a tiny Sweave example}
+\author{Bernd Weiss}
+
+\begin{document}
+\maketitle
+
+I am using a built-in dataset which is called \texttt{USArrests} 
+(Violent Crime Rates by US State).
+
+<<echo = TRUE>>=
+summary(USArrests)
+@
+
+The mean for "Murder arrests (per 100,000)" is \Sexpr{mean(USArrests$Murder)}.
+
+\setkeys{Gin}{width=0.4\textwidth}
+
+\begin{figure}[h!]
+\begin{center}
+<<echo = FALSE, fig = TRUE>>=
+hist(USArrests$Murder)
+@
+\end{center}
+\caption{Murder arrests (per 100,000)}
+\end{figure}
+
+\end{document}
+
+% What-a-Sweave-file-looks-like:1 ends here
