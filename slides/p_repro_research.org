@@ -74,17 +74,12 @@ Org-mode}}.
 \item Licensed under a Creative Commons
 \href{http://creativecommons.org/licenses/by-nc-sa/3.0/de/deed.en}{Attribution-NonCommercial-ShareAlike
 3.0 Germany} license.
-\item Slides, dataset and R code can be downloaded from my github page:
-\href{https://github.com/berndweiss/dynamic_documents_with_r}{https://github.com/berndweiss/dynamic_documents_with_r} (see
-"Downloads" button on the right-hand side).
+\item Slides, dataset and R code can be downloaded from my
+\href{https://github.com/berndweiss/dynamic_documents_with_r}{github}
+page: (see "Downloads" button on the right-hand side).
 \end{itemize}
 \end{frame}
 #+end_latex
-
-#+lattice and ggplot2 in babel
-#+http://www.mail-archive.com/emacs-orgmode@gnu.org/msg25944.html
-#+http://www.mail-archive.com/emacs-orgmode@gnu.org/msg35559.html
-
 
 
 
@@ -120,6 +115,22 @@ paper" (Gentleman/Lang 2004: 1).
 (Source: David Smith on "A workflow for R": http://blog.revolutionanalytics.com/2010/10/a-workflow-for-r.html)
 
 
+** Sweave as a tool for creating dynamic documents
+
+"Sweave is a tool that allows the R code used for a complete data analysis to be embedded into
+LaTeX, HTML or OpenOffice documents. The purpose is to create dynamic reports, which can be updated
+automatically if the data or analysis change. Instead of inserting a prefabricated graph or table
+into the report, the master document contains the R code necessary to obtain it. When run through R,
+all data analysis output (tables, graphs, etc.) is created on the fly and inserted into a final
+document. Data, code and documentation are tightly linked together, which allows for truly
+reproducible research" (Leisch 2010, http://user2010.org/tutorials/Leisch.html). 
+
+  
+** Some Sweave examples
+*** Dissertation thesis
+*** Medical report with tables and figures
+
+
 
 
 ** The source code is real
@@ -150,21 +161,6 @@ drwxr-xr-x 1    0 Jan 29 11:44 tests/
 #+end_example
 
 
-
-** Sweave as a tool for creating dynamic documents
-
-"Sweave is a tool that allows the R code used for a complete data analysis to be embedded into
-LaTeX, HTML or OpenOffice documents. The purpose is to create dynamic reports, which can be updated
-automatically if the data or analysis change. Instead of inserting a prefabricated graph or table
-into the report, the master document contains the R code necessary to obtain it. When run through R,
-all data analysis output (tables, graphs, etc.) is created on the fly and inserted into a final
-document. Data, code and documentation are tightly linked together, which allows for truly
-reproducible research" (Leisch 2010, http://user2010.org/tutorials/Leisch.html). 
-
-  
-** Some Sweave examples
-*** Dissertation thesis
-*** Medical report with tables and figures
 
 
 
@@ -235,7 +231,7 @@ Hello world!
 %% Part 2: Body 
 \begin{document}
 
-\section{Heading} 
+\section{Heading11} 
 
 Hello world!
 
@@ -285,8 +281,8 @@ Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (C:\Programme\texmf\tex\latex\00miktex\bblopts.cfg)
 (C:\Programme\texmf\tex\generic\babel\english.ldf
 (C:\Programme\texmf\tex\generic\babel\babel.def)))
-(e:\projects\software\dynamic_documents_with_r\slides\hello_world.aux) [1{C:/Us
-ers/weiss/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+No file hello_world.aux.
+[1{C:/Users/weiss/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 (e:\projects\software\dynamic_documents_with_r\slides\hello_world.aux) ){C:/Pro
 gramme/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}<C:/Users/weiss/AppData/R
 oaming/MiKTeX/2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/weiss/App
@@ -297,7 +293,7 @@ s/weiss/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:
 ><C:/Users/weiss/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/amsfonts/cm/cmsy
 10.pfb><C:/Programme/texmf/fonts/type1/public/cm-super/sfbx1440.pfb><C:/Program
 me/texmf/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on hello_world.pdf (1 page, 68424 bytes).
+Output written on hello_world.pdf (1 page, 68423 bytes).
 Transcript written on hello_world.log.
 #+end_example
 
@@ -478,6 +474,7 @@ system("pdflatex -output-directory ../../slides examp_sweave-02.tex",
 
 
 #+BEGIN_SRC sh :exports none
+ls 
 rm *.tex
 rm *.aux
 rm *.log

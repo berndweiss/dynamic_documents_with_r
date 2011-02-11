@@ -1,4 +1,4 @@
-% Created 2011-02-11 Fr 07:53
+% Created 2011-02-11 Fr 13:19
 \documentclass[bigger]{beamer}
 \usepackage[latin1]{inputenc}
 \usepackage[T1]{fontenc}
@@ -85,13 +85,11 @@ Org-mode}}.
 \item Licensed under a Creative Commons
 \href{http://creativecommons.org/licenses/by-nc-sa/3.0/de/deed.en}{Attribution-NonCommercial-ShareAlike
 3.0 Germany} license.
-\item Slides, dataset and R code can be downloaded from my github page:
-\href{https://github.com/berndweiss/dynamic_documents_with_r}{https://github.com/berndweiss/dynamic_documents_with_r} (see
-"Downloads" button on the right-hand side).
+\item Slides, dataset and R code can be downloaded from my
+\href{https://github.com/berndweiss/dynamic_documents_with_r}{github}
+page: (see "Downloads" button on the right-hand side).
 \end{itemize}
 \end{frame}
-
-
 
 
 
@@ -147,13 +145,37 @@ paper'' (Gentleman/Lang 2004: 1).
 (Source: David Smith on ``A workflow for R'': \href{http://blog.revolutionanalytics.com/2010/10/a-workflow-for-r.html}{http://blog.revolutionanalytics.com/2010/10/a-workflow-for-r.html})
 
 
+\end{itemize} % ends low level
+\end{frame}
+\begin{frame}
+\frametitle{Sweave as a tool for creating dynamic documents}
+\label{sec-2_3}
 
 
+``Sweave is a tool that allows the R code used for a complete data analysis to be embedded into
+\LaTeX{}, HTML or OpenOffice documents. The purpose is to create dynamic reports, which can be updated
+automatically if the data or analysis change. Instead of inserting a prefabricated graph or table
+into the report, the master document contains the R code necessary to obtain it. When run through R,
+all data analysis output (tables, graphs, etc.) is created on the fly and inserted into a final
+document. Data, code and documentation are tightly linked together, which allows for truly
+reproducible research'' (Leisch 2010, \href{http://user2010.org/tutorials/Leisch.html}{http://user2010.org/tutorials/Leisch.html}). 
+
+  
+\end{frame}
+\begin{frame}
+\frametitle{Some Sweave examples}
+\label{sec-2_4}
+\begin{itemize}
+
+\item Dissertation thesis\\
+\label{sec-2_4_1}%
+\item Medical report with tables and figures\\
+\label{sec-2_4_2}%
 \end{itemize} % ends low level
 \end{frame}
 \begin{frame}
 \frametitle{The source code is real}
-\label{sec-2_3}
+\label{sec-2_5}
 
 
 ``The source code is real. The objects are realizations of the source code. Source for EVERY user
@@ -162,7 +184,7 @@ modified object is placed in a particular directory or directories, for later ed
 \end{frame}
 \begin{frame}[fragile]
 \frametitle{How my project(s) are organized}
-\label{sec-2_4}
+\label{sec-2_6}
 
 
 
@@ -179,32 +201,6 @@ drwxr-xr-x 1 4096 Feb  4 08:11 reports/
 drwxr-xr-x 1 4096 Jan 30 08:03 src/
 drwxr-xr-x 1    0 Jan 29 11:44 tests/
 \end{lstlisting}
-\end{frame}
-\begin{frame}
-\frametitle{Sweave as a tool for creating dynamic documents}
-\label{sec-2_5}
-
-
-``Sweave is a tool that allows the R code used for a complete data analysis to be embedded into
-\LaTeX{}, HTML or OpenOffice documents. The purpose is to create dynamic reports, which can be updated
-automatically if the data or analysis change. Instead of inserting a prefabricated graph or table
-into the report, the master document contains the R code necessary to obtain it. When run through R,
-all data analysis output (tables, graphs, etc.) is created on the fly and inserted into a final
-document. Data, code and documentation are tightly linked together, which allows for truly
-reproducible research'' (Leisch 2010, \href{http://user2010.org/tutorials/Leisch.html}{http://user2010.org/tutorials/Leisch.html}). 
-
-  
-\end{frame}
-\begin{frame}
-\frametitle{Some Sweave examples}
-\label{sec-2_6}
-\begin{itemize}
-
-\item Dissertation thesis\\
-\label{sec-2_6_1}%
-\item Medical report with tables and figures\\
-\label{sec-2_6_2}%
-\end{itemize} % ends low level
 \end{frame}
 \section{\LaTeX in 5 minutes}
 \label{sec-3}
