@@ -4,7 +4,7 @@
 - /docs :: Documents that are related to reproducible research and R/Sweave. These documents cannot be found on my github
           repo but the corresponding links can be found in my slides.
 - /graphs :: Guess what...
-- /slides :: Slides (PDF-, Org- and TeX-files)
+- /slides :: Slides ((prefix =p_=; PDF-, Org- and TeX-files)
 - /src :: R and LaTeX code
 
 ** Download all materials
